@@ -77,16 +77,6 @@
     }
   }
 
-  .fav-movies {
-    & ul {
-      @apply flex flex-row overflow-y-auto gap-5 -mt-10 w-full hide-scrollbar;
-    }
-    
-    & img {
-      @apply w-[127px] h-[163px] rounded-lg object-cover -ml-3.5;
-    }
-  }
-
   .search {
     @apply w-full bg-light-100/5 px-4 py-3 rounded-lg mt-10 max-w-3xl mx-auto;
 
@@ -108,6 +98,14 @@
 
     & ul {
       @apply grid grid-cols-1 gap-5 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4;
+    }
+  }
+
+  .fav-movies {
+    @apply space-y-9;
+
+    & ul {
+      @apply grid grid-cols-1 gap-5 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-6;
     }
   }
 
