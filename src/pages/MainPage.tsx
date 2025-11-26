@@ -1,37 +1,39 @@
-import { useMyMoviesLogic } from "../hooks/useMyMoviesLogic"
 import Spinner from "../components/Spinner";
 import FilmCard from "../components/FilmCard";
+import { useMovieList } from "../context/useMovieList";
+import { useEffect } from "react";
 
 const MainPage = () => {
-    const {isLoading, errorMessage, movieList} = useMyMoviesLogic();
-  return (
-    <div>
-      {isLoading ? 
+
+    const {movieList, error, loading, fetchMovies} = useMovieList();
+
+    useEffect(() => {
+        fetchMovies();
+    }, [])
+
+    return (
+
+        <div>
+            {loading ? 
                 <div className="flex justify-center items-center">
-                  <Spinner/>
+                    <Spinner/>
                 </div>
                 
-                : errorMessage ? 
-                  <p className="text-xl text-red-500 font-bold">{errorMessage}</p> 
-                  : (
+                : error ? 
+                <p className="text-xl text-red-500 font-bold">{error}</p> 
+                : (
                     <ul>
-                      {movieList.map((item) => (
-                      <FilmCard 
-                        key={item.id} 
-                        movieId={item.id}
-                        movieTitle={item.original_title} 
-                        movieImg={item.poster_path}
-                        year={item.release_date}
-                        language={item.original_language}
-                        ratings={item.vote_average}
-                        genre="Action"
-                      />
+                    {movieList.map((movie) => (
+                        <FilmCard 
+                            key={movie.id} 
+                            {...movie}
+                        />
                     ))}
                     </ul>
-                  )
-        }
-    </div>
-  )
+                )
+            }
+        </div>
+    )
 }
 
 export default MainPage

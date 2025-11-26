@@ -1,16 +1,13 @@
-import { useState } from "react";
 import Search from "./components/Search";
 import { useMyMoviesLogic } from "./hooks/useMyMoviesLogic";
 import MainPage from "./pages/MainPage";
 import Favorites from "./pages/Favorites";
 
 function App() {
-  const [isClicked, setIsClicked] = useState<boolean>(false);
-
-  const {searchTerm, setSearchTerm, trendingMovies} = useMyMoviesLogic();
+  const {searchTerm, setSearchTerm, trendingMovies, isPageClicked, setPageIsClicked} = useMyMoviesLogic();
 
   const onClickFeed = () => {
-    setIsClicked(prev => !prev);
+    setPageIsClicked(prev => !prev);
   }
 
   return (
@@ -47,10 +44,10 @@ function App() {
 
             <div className="all-movies">
               <div className="mt-5 flex gap-10">
-                <h2 className={`hover:scale-85 hover:text-indigo-600 ${!isClicked && "text-indigo-600 underline"}`} 
+                <h2 className={`hover:scale-90 hover:text-indigo-600 ${!isPageClicked && "text-indigo-600 underline"}`} 
                   onClick={onClickFeed}>All Movies</h2>
 
-                <h2 className={`hover:scale-85 hover:text-indigo-600 ${isClicked && "text-indigo-600 underline"}`} 
+                <h2 className={`hover:scale-90 hover:text-indigo-600 ${isPageClicked && "text-indigo-600 underline"}`} 
                   onClick={onClickFeed}>
                     Your Favorite Movies
                 </h2>
@@ -58,7 +55,7 @@ function App() {
               </div>
 
                 {
-                  isClicked ?
+                  isPageClicked ?
                   <Favorites /> :
                   <MainPage /> 
                 }

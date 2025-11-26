@@ -1,5 +1,5 @@
 import { Databases, Client, ID, Query } from "appwrite";
-import type { IMovie } from "./context/LikedMovieContext";
+import type { IMovie } from "./context/MovieListContext";
 
 const PROJECT_ID = import.meta.env.VITE_APPWRITE_PROJECT_ID
 const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
@@ -78,18 +78,20 @@ export const addFavoriteMovies = async (movie: IMovie) => {
             [Query.equal("movieId", movie.id)]
         );
 
-        if (existingMovies.length > 0) {
-            const movieId = existingMovies.documents[0].$id;
+        if (existingMovies.total > 0) {
+            const documentId = existingMovies.documents[0].$id;
 
             await database.deleteDocument(
                 DATABASE_ID,
                 'liked_movies',
-                movieId
+                documentId
             )
+
+            console.log("FILME DELETADO POR EXISTIR NO BANCO DE DADOS")
 
             return {
                 action: "deleted",
-                documentId: movieId,
+                documentId,
             };
         } else {
             await database.createDocument(
@@ -101,9 +103,12 @@ export const addFavoriteMovies = async (movie: IMovie) => {
                     movieTitle: movie.original_title,
                     posterUrl: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
                     movieRating: movie.vote_average,
-                    movieReleaseYear: movie.release_date
+                    movieReleaseYear: movie.release_date,
+                    isLiked: movie.isLiked
                 }
             )
+
+            console.log("Adicionado no BANCO DE DADOS 📁")
 
             return {
                 action: "created",

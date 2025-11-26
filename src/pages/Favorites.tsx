@@ -1,40 +1,23 @@
-import { useEffect, useState } from "react";
-import { myFavoriteMovies } from "../appwrite.ts";
+import { useEffect } from "react";
 import FilmCard from "../components/FilmCard.tsx";
+import { useLikedMovieList } from "../context/useMovieList.ts";
 
 const Favorites = () => {
-    const [myFavMovies, setMyFavMovies] = useState<[]>([]);
-
-    const showMyMovies = async () => {
-        try {
-        const myFav = await myFavoriteMovies();
-
-        setMyFavMovies(myFav);
-        console.log(myFavMovies);
-        } catch (error) {
-        console.log(error)
-        }
-    }
+    const {fetchFavorites, likedMovies} = useLikedMovieList()
 
     useEffect(() => {
-        showMyMovies();
+        fetchFavorites();
     }, [])
 
     return (
         <div className="">
-            {myFavMovies.length > 0 &&
+            {likedMovies.length > 0 &&
                 <section className="fav-movies">
-
                     <ul>
-                        {myFavMovies.map((item) => (
+                        {likedMovies.map((movie) => (
                             <FilmCard 
-                                key={item.movieId} 
-                                movieId={item.movieId}
-                                movieTitle={item.movieTitle} 
-                                movieImg={item.posterUrl}
-                                year={item.movieReleaseYear}
-                                ratings={item.movieRating}
-                                genre="Action"
+                                key={movie.id} 
+                                {...movie}
                             />
                         ))}
                     </ul>
