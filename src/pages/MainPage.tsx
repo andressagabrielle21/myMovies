@@ -9,8 +9,8 @@ const MainPage = () => {
 
     useEffect(() => {
         fetchMovies();
-    }, [])
-
+    }, []);
+    
     return (
 
         <div>

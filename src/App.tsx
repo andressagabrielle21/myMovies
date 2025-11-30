@@ -2,13 +2,20 @@ import Search from "./components/Search";
 import { useMyMoviesLogic } from "./hooks/useMyMoviesLogic";
 import MainPage from "./pages/MainPage";
 import Favorites from "./pages/Favorites";
+import { useMovieList } from "./context/useMovieList";
+import { useEffect } from "react";
 
 function App() {
-  const {searchTerm, setSearchTerm, trendingMovies, isPageClicked, setPageIsClicked} = useMyMoviesLogic();
+  const {searchTerm, setSearchTerm, isPageClicked, setPageIsClicked} = useMyMoviesLogic();
+  const {trendingMovies, fetchTrendingMovies} = useMovieList();
 
   const onClickFeed = () => {
     setPageIsClicked(prev => !prev);
   }
+
+  useEffect(() => {
+    fetchTrendingMovies();
+  }, [])
 
   return (
     <main>
@@ -33,9 +40,9 @@ function App() {
 
                 <ul>
                   {trendingMovies.map((item, index) => (
-                    <li key={item.$id}>
+                    <li key={item.id}>
                       <p>{index + 1}</p>
-                      <img src={item.poster_url} alt={item.title} />
+                      <img src={item.poster_path} alt={item.title} />
                     </li>
                   ))}
                 </ul>

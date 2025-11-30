@@ -1,5 +1,5 @@
 import { Databases, Client, ID, Query } from "appwrite";
-import type { IMovie } from "./context/MovieListContext";
+import type { IMovie } from "./context/useMovieList";
 
 const PROJECT_ID = import.meta.env.VITE_APPWRITE_PROJECT_ID
 const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
@@ -30,8 +30,8 @@ export const updateSearchCount = async (searchTerm: string, movie: {id: number, 
                 {
                     searchTerm,
                     count: 1,
-                    movieId: movie.id,
-                    poster_url: `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                    id: movie.id,
+                    poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`
                 }
             )
         }
@@ -75,7 +75,7 @@ export const addFavoriteMovies = async (movie: IMovie) => {
         const existingMovies = await database.listDocuments(
             DATABASE_ID,
             'liked_movies',
-            [Query.equal("movieId", movie.id)]
+            [Query.equal("id", movie.id)]
         );
 
         if (existingMovies.total > 0) {
@@ -99,12 +99,13 @@ export const addFavoriteMovies = async (movie: IMovie) => {
                 'liked_movies', 
                 ID.unique(),
                 {
-                    movieId: movie.id,
-                    movieTitle: movie.original_title,
-                    posterUrl: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-                    movieRating: movie.vote_average,
-                    movieReleaseYear: movie.release_date,
-                    isLiked: movie.isLiked
+                    id: movie.id,
+                    title: movie.title,
+                    poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+                    vote_average: movie.vote_average,
+                    release_date: movie.release_date,
+                    genre_ids: movie.genre_ids[0],
+                    isLiked: true
                 }
             )
 
