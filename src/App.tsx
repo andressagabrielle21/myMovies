@@ -4,6 +4,8 @@ import MainPage from "./pages/MainPage";
 import Favorites from "./pages/Favorites";
 import { useMovieList } from "./context/useMovieList";
 import { useEffect } from "react";
+import { Link, Route, Routes } from "react-router-dom";
+import MovieInfo from "./components/MovieInfo";
 
 function App() {
   const {searchTerm, setSearchTerm, isPageClicked, setPageIsClicked} = useMyMoviesLogic();
@@ -51,21 +53,24 @@ function App() {
 
             <div className="all-movies">
               <div className="mt-5 flex gap-10">
-                <h2 className={`hover:scale-90 hover:text-indigo-600 ${!isPageClicked && "text-indigo-600 underline"}`} 
-                  onClick={onClickFeed}>All Movies</h2>
+                <Link to="/">
+                  <h2 className={`hover:scale-90 hover:text-indigo-600 ${!isPageClicked && "text-indigo-600 underline"}`} 
+                    onClick={onClickFeed}>All Movies</h2>
+                </Link>
 
-                <h2 className={`hover:scale-90 hover:text-indigo-600 ${isPageClicked && "text-indigo-600 underline"}`} 
-                  onClick={onClickFeed}>
-                    Your Favorite Movies
-                </h2>
+                <Link to="/favorites">
+                  <h2 className={`hover:scale-90 hover:text-indigo-600 ${isPageClicked && "text-indigo-600 underline"}`} 
+                    onClick={onClickFeed}>
+                      Your Favorite Movies
+                  </h2>
+                </Link>
 
               </div>
-
-                {
-                  isPageClicked ?
-                  <Favorites /> :
-                  <MainPage /> 
-                }
+              <Routes>
+                <Route path="/" element={<MainPage />} />
+                <Route path="/favorites" element={<Favorites />}/>
+                <Route path="/movie/:id" element={<MovieInfo />} />
+              </Routes>
 
               
             </div>

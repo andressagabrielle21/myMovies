@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
 import { useMovieList, useLikedMovieList, type IMovieInfo } from "../context/useMovieList.ts";
-import MovieInfo from "./MovieInfo.tsx";
+import { Link } from "react-router-dom";
 
 const FilmCard = (movie: IMovieInfo) => {
     const {addFavoriteMovies} = useLikedMovieList();
-    const {movieGenres, fetchMovieInfo} = useMovieList()
-    const [showInfo, setShowInfo] = useState<boolean>(false);
+    const {movieGenres} = useMovieList()
 
     let genre;
 
@@ -16,14 +14,14 @@ const FilmCard = (movie: IMovieInfo) => {
     }
     
     
-    useEffect(() => {
-        fetchMovieInfo(movie);
-    }, [])
+    // useEffect(() => {
+    //     fetchMovieInfo(movie.id as string);
+    // }, [])
 
     return (
-        <div 
+        <Link to={`/movie/${movie.id}`}
         className="movie-card hover:shadow-xl hover:shadow-indigo-500/50 hover:scale-98"
-        onClick={() => setShowInfo(prev => !prev)}>
+        >
             <img src={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
                 : '/not-available.png'
                 } alt="Movie Poster" 
@@ -37,7 +35,7 @@ const FilmCard = (movie: IMovieInfo) => {
                     <p className="year">{movie.release_date?.substring(0, 4) ?? "----"}</p>
                 </div>
                 
-                <div className="content flex justify-center">
+                <div className="content flex justify-between items-center">
                     <div className="rating">
                         <img src="/star.png" alt="" />
                         <p>{movie.vote_average ? movie.vote_average.toFixed(1) : "N/A"}</p>
@@ -60,8 +58,8 @@ const FilmCard = (movie: IMovieInfo) => {
             
 
             </div>
-            {showInfo && <MovieInfo key={movie.id} {...movie}/>}        
-        </div>
+            {/* {showInfo && <MovieInfo key={movie.id} {...movie}/>}         */}
+        </Link>
     )
 }
 

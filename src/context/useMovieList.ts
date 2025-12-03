@@ -34,6 +34,7 @@ export interface IMovieInfo {
     genre_ids?: string[],
     genre?: string,
     isLiked?: boolean,
+    runtime: number,
     overview?: string, //Sinopse
     backdrop_path?: string // Background Poster
 } 
@@ -45,7 +46,7 @@ interface IMovieList {
     error: string,
     fetchMovies: (query?: string) => Promise<IMovie[] | undefined>,
     movieInfo?: IMovieInfo,
-    fetchMovieInfo: (movie: IMovieInfo) => Promise<IMovie[] | undefined>,
+    fetchMovieInfo: (id: string) => Promise<IMovie[] | undefined>,
     fetchTrendingMovies: () => Promise<IMovie[] | void>,
     movieGenres: string[]
     // toggleMovieInfo: (movieInfo: IMovieInfo) => void
@@ -107,9 +108,9 @@ export const useMovieList = create<IMovieList>((set) => ({
         }
     },
 
-    fetchMovieInfo: async (movie: IMovieInfo) => {
+    fetchMovieInfo: async (id: string) => {
         try {
-            const endpoint = `${API_BASE_URL}/movie/${movie.id}` 
+            const endpoint = `${API_BASE_URL}/movie/${id}` 
             
             const response = await fetch(endpoint, API_OPTIONS);
             if (!response.ok) {
