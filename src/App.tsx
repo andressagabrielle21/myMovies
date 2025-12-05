@@ -52,14 +52,14 @@ function App() {
             }
 
             <div className="all-movies">
-              <div className="mt-5 flex gap-10">
+              <div className="mt-5 flex gap-10 max-md:mt-0 max-md:justify-between">
                 <Link to="/">
                   <h2 className={`hover:scale-90 hover:text-indigo-600 ${!isPageClicked && "text-indigo-600 underline"}`} 
                     onClick={onClickFeed}>All Movies</h2>
                 </Link>
 
                 <Link to="/favorites">
-                  <h2 className={`hover:scale-90 hover:text-indigo-600 ${isPageClicked && "text-indigo-600 underline"}`} 
+                  <h2 className={`hover:scale-90 max-md:text-right hover:text-indigo-600 ${isPageClicked && "text-indigo-600 underline"}`} 
                     onClick={onClickFeed}>
                       Your Favorite Movies
                   </h2>

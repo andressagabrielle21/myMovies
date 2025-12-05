@@ -4,8 +4,6 @@ import { useLikedMovieList} from "../context/useMovieList.ts";
 
 const Favorites = () => {
     const {fetchFavorites, likedMovies} = useLikedMovieList()
-
-    console.log(likedMovies)
     
     useEffect(() => {
         fetchFavorites();
