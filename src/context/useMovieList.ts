@@ -35,6 +35,13 @@ export interface IMovieInfo {
     genre?: string,
     isLiked?: boolean,
     runtime: number,
+    status: string,
+    budget: number,
+    revenue: number,
+    production_countries?: string[],
+    production_companies?: string[],
+    spoken_languages?: string[],
+    genres?: string[],
     overview?: string, //Sinopse
     backdrop_path?: string // Background Poster
 } 

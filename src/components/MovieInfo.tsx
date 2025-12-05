@@ -12,38 +12,119 @@ const MovieInfo = () => {
         fetchMovieInfo(id as string);
     }, [id]);
 
+    console.log(movieInfo?.genres.map((item) => item.name))
+
     return (
-        <div className="flex flex-col items-start gap-3 mt-6">
+        <div className="flex flex-col items-start justify-center gap-3 mt-6">
             <h2 className="text-5xl font-bold text-white">{movieInfo?.title}</h2>
 
             <div className="flex gap-3 text-gray-100">
                 <p>{movieInfo?.release_date.substring(0, 4)}</p>
+                <span>•</span>
                 <p>{movieInfo?.runtime}min</p>
+                <span>•</span> 
+                <div className="flex gap-1.5 items-center">
+                    <img src="/star.png" className="w-full h-4" />
+                    <p>{movieInfo?.vote_average ? movieInfo?.vote_average.toFixed(1) : "N/A"}</p>
+                </div>
+            </div>
+
+            <div className="flex flex-col gap-8 items-start w-[80%]">
+                <div className="flex justify-center gap-20">
+                    <img src={movieInfo?.poster_path ? `https://image.tmdb.org/t/p/w500/${movieInfo?.poster_path}` 
+                        : '/not-available.png'}
+                        alt={movieInfo?.title} 
+                        className="rounded-lg max-h-[320px]"
+                    />
+
+                    <img src={movieInfo?.backdrop_path ? `https://image.tmdb.org/t/p/w500/${movieInfo?.backdrop_path}`
+                        : '/not-available.png'
+                        } alt={movieInfo?.original_title}
+                        className="rounded-lg"
+                    />
+                </div>
+                    
+                <div className="flex gap-25">
+                    <span className="text-xl font-bold text-gray-100">Genres: </span>
+                    <div className="flex gap-2">
+                        {movieInfo?.genres.map((item) => (
+                            <div className="bg-amber-50/50 rounded-lg py-1 px-2">
+                                <p>{item.name}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="flex gap-20">
+                    <span className="text-xl font-bold text-gray-100">Overview: </span>
+                    <p className="text-white">
+                        {movieInfo?.overview}
+                    </p>
+                </div>
+
+                <div className="flex gap-12">
+                    <span className="text-xl font-bold text-gray-100">Release date: </span>
+                    <p className="text-white">
+                        {movieInfo?.release_date}
+                    </p>
+                </div>
+
+                <div className="flex gap-19">
+                    <span className="text-xl font-bold text-gray-100">Countries: </span>
+                    <div className="flex gap-2">
+                        {movieInfo?.production_countries.map((item) => (
+                            <div className="bg-amber-50/50 rounded-lg py-1 px-2">
+                                <p>{item.name}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="flex gap-26">
+                    <span className="text-xl font-bold text-gray-100">Status: </span>
+                    <p className="text-white">
+                        {movieInfo?.status}
+                    </p>
+                </div>
+
+                <div className="flex gap-18">
+                    <span className="text-xl font-bold text-gray-100">Language: </span>
+                    <div className="flex gap-2 text-white">
+                        {movieInfo?.spoken_languages.map((item) => (
+                            // <div className="bg-amber-50/50 rounded-lg py-1 px-2">
+                                <p>{item.name} • </p>
+                            // </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="flex gap-24">
+                    <span className="text-xl font-bold text-gray-100">Budget: </span>
+                    <p className="text-white">
+                        ${movieInfo?.budget} Million
+                    </p>
+                </div>
+
+                <div className="flex gap-21">
+                    <span className="text-xl font-bold text-gray-100">Revenue: </span>
+                    <p className="text-white">
+                        ${movieInfo?.revenue} Million
+                    </p>
+                </div>
+
+                <div className="flex gap-18">
+                    <span className="text-xl font-bold text-gray-100 text-wrap">Production Companies: </span>
+                    <div className="flex gap-2 text-white">
+                        {movieInfo?.production_companies.map((item) => (
+                            // <div className="bg-amber-50/50 rounded-lg py-1 px-2">
+                                <p>{item.name}</p>
+                            // </div>
+                        ))}
+                    </div>
+                </div>
             </div>
 
 
-            <div className="flex gap-5">
-                <img src={movieInfo?.poster_path ? `https://image.tmdb.org/t/p/w500/${movieInfo?.poster_path}` 
-                    : '/not-available.png'}
-                    alt={movieInfo?.title} 
-                    className="rounded-lg max-h-[320px]"
-                />
-
-                <img src={movieInfo?.backdrop_path ? `https://image.tmdb.org/t/p/w500/${movieInfo?.backdrop_path}`
-                    : '/not-available.png'
-                    } alt={movieInfo?.original_title}
-                    className="rounded-lg"
-                />
-            </div>
-
-
-
-
-            {/* <h2 className="font-bold text-xl">{movieGenres[0]}</h2> */}
-
-            <p className="text-white">
-                <span className="text-2xl font-bold">Overview: </span>{movieInfo?.overview}
-            </p>
         </div>
     )
 }
